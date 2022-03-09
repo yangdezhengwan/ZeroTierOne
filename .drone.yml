@@ -145,3 +145,20 @@ steps:
 
 image_pull_secrets:
   - dockerconfigjson
+
+---
+kind: pipeline
+type: docker
+name: build jammy amd64
+
+clone:
+  depth: 1
+
+steps:
+  - name: build s390x
+    image: registry.sean.farm/honda-builder
+    commands:
+      - ./ci/scripts/build-jammy.sh linux amd64 $${DRONE_COMMIT_SHA}
+
+image_pull_secrets:
+  - dockerconfigjson

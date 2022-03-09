@@ -1,0 +1,9 @@
+FROM registry.sean.farm/jammy-builder as stage
+COPY . .
+RUN apt-get -y install devscripts build-essential lintian debhelper
+RUN dpkg-buildpackage -b -rfakeroot -us -uc
+RUN echo "HELLO THERE"
+RUN ls -laR
+
+FROM scratch AS export
+COPY --from=stage /*.deb .
